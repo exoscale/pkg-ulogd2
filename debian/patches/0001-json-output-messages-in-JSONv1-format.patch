@@ -1,0 +1,74 @@
+From abde756f387b1eb040f8880c2089ef9df51a80af Mon Sep 17 00:00:00 2001
+From: Vincent Bernat <Vincent.Bernat@exoscale.ch>
+Date: Wed, 30 Sep 2015 13:57:23 +0200
+Subject: [PATCH 1/2] json: output messages in JSONv1 format
+
+While Logstash is quite flexible in the JSON messages received, the
+canonical format it "expects" is the JSON Event v1 format. The timestamp
+should be keyed by `@timestamp` and there should be a `@version` key
+whose value is 1. All other keys are free.
+
+There is no formal specification of this format. It is however described
+here:
+
+ https://github.com/elastic/logstash/blob/1.5/lib/logstash/event.rb#L26-L47
+
+It's useful to respect this format as it allows a user to use a less
+capable receiver. The new format is enabled only when `eventv1=1` is set
+in plugin configuration.
+
+Signed-off-by: Vincent Bernat <Vincent.Bernat@exoscale.ch>
+---
+ output/ulogd_output_JSON.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/output/ulogd_output_JSON.c b/output/ulogd_output_JSON.c
+index 3ad262069e20..36a4d4962a54 100644
+--- a/output/ulogd_output_JSON.c
++++ b/output/ulogd_output_JSON.c
+@@ -46,6 +46,7 @@ enum json_conf {
+ 	JSON_CONF_FILENAME = 0,
+ 	JSON_CONF_SYNC,
+ 	JSON_CONF_TIMESTAMP,
++	JSON_CONF_EVENTV1,
+ 	JSON_CONF_DEVICE,
+ 	JSON_CONF_BOOLEAN_LABEL,
+ 	JSON_CONF_MAX
+@@ -72,6 +73,12 @@ static struct config_keyset json_kset = {
+ 			.options = CONFIG_OPT_NONE,
+ 			.u = { .value = 1 },
+ 		},
++		[JSON_CONF_EVENTV1] = {
++			.key = "eventv1",
++			.type = CONFIG_TYPE_INT,
++			.options = CONFIG_OPT_NONE,
++			.u = { .value = 0 },
++		},
+ 		[JSON_CONF_DEVICE] = {
+ 			.key = "device",
+ 			.type = CONFIG_TYPE_STRING,
+@@ -101,6 +108,9 @@ static int json_interp(struct ulogd_pluginstance *upi)
+ 		return ULOGD_IRET_ERR;
+ 	}
+ 
++	if (upi->config_kset->ces[JSON_CONF_EVENTV1].u.value != 0)
++		json_object_set_new(msg, "@version", json_integer(1));
++
+ 	if (upi->config_kset->ces[JSON_CONF_TIMESTAMP].u.value != 0) {
+ 		time_t now;
+ 		char timestr[MAX_LOCAL_TIME_STRING];
+@@ -130,7 +140,10 @@ static int json_interp(struct ulogd_pluginstance *upi)
+ 					t->tm_min, t->tm_sec);
+ 		}
+ 
+-		json_object_set_new(msg, "timestamp", json_string(timestr));
++		if (upi->config_kset->ces[JSON_CONF_EVENTV1].u.value != 0)
++			json_object_set_new(msg, "@timestamp", json_string(timestr));
++		else
++			json_object_set_new(msg, "timestamp", json_string(timestr));
+ 	}
+ 
+ 	if (upi->config_kset->ces[JSON_CONF_DEVICE].u.string) {
+-- 
+2.6.0
+

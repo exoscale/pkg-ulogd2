@@ -1,0 +1,68 @@
+From 410281b17dbac41fbfef3d9f9f8a6b26de58dbae Mon Sep 17 00:00:00 2001
+From: Vincent Bernat <Vincent.Bernat@exoscale.ch>
+Date: Wed, 30 Sep 2015 14:06:20 +0200
+Subject: [PATCH 2/2] json: append timezone information to ISO 8601 date
+
+While this is not strictly needed for ISO 8601, this is helpful since
+otherwise, the receiver can't assume anything about the
+timezone.
+
+This uses a GNU extension but as ulogd is quite Linux-specific, this
+shouldn't be a problem. The POSIX variables (tzname and daylight) are
+quite difficult to use because daylight handling is incomplete (daylight
+don't say if DST is now in effect, it just says it is sometimes in
+effect).
+
+A timezone offset is used instead of a timezone since it is usually
+easier to parse (strptime in glibc is not able to parse a timezone name)
+and don't require an up-to-date TZ database.
+
+Signed-off-by: Vincent Bernat <Vincent.Bernat@exoscale.ch>
+---
+ output/ulogd_output_JSON.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
+
+diff --git a/output/ulogd_output_JSON.c b/output/ulogd_output_JSON.c
+index 36a4d4962a54..69a4e3ea02be 100644
+--- a/output/ulogd_output_JSON.c
++++ b/output/ulogd_output_JSON.c
+@@ -94,7 +94,7 @@ static struct config_keyset json_kset = {
+ 	},
+ };
+ 
+-#define MAX_LOCAL_TIME_STRING 32
++#define MAX_LOCAL_TIME_STRING 38
+ 
+ static int json_interp(struct ulogd_pluginstance *upi)
+ {
+@@ -127,17 +127,23 @@ static int json_interp(struct ulogd_pluginstance *upi)
+ 
+ 		if (pp_is_valid(inp, opi->usec_idx)) {
+ 			snprintf(timestr, MAX_LOCAL_TIME_STRING,
+-					"%04d-%02d-%02dT%02d:%02d:%02d.%06u",
++					"%04d-%02d-%02dT%02d:%02d:%02d.%06u%c%02d%02d",
+ 					t->tm_year + 1900, t->tm_mon + 1,
+ 					t->tm_mday, t->tm_hour,
+ 					t->tm_min, t->tm_sec,
+-					ikey_get_u32(&inp[opi->usec_idx]));
++					ikey_get_u32(&inp[opi->usec_idx]),
++					t->tm_gmtoff > 0 ? '+' : '-',
++					abs(t->tm_gmtoff) / 60 / 60,
++					abs(t->tm_gmtoff) / 60 % 60);
+ 		} else {
+ 			snprintf(timestr, MAX_LOCAL_TIME_STRING,
+-					"%04d-%02d-%02dT%02d:%02d:%02d",
++					"%04d-%02d-%02dT%02d:%02d:%02d%c%02d%02d",
+ 					t->tm_year + 1900, t->tm_mon + 1,
+ 					t->tm_mday, t->tm_hour,
+-					t->tm_min, t->tm_sec);
++					t->tm_min, t->tm_sec,
++					t->tm_gmtoff > 0 ? '+' : '-',
++					abs(t->tm_gmtoff) / 60 / 60,
++					abs(t->tm_gmtoff) / 60 % 60);
+ 		}
+ 
+ 		if (upi->config_kset->ces[JSON_CONF_EVENTV1].u.value != 0)
+-- 
+2.6.0
+

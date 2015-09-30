@@ -1,3 +1,10 @@
+ulogd2 (2.0.5-1~precise0+exo2) precise; urgency=medium
+
+  * Add a patch to make JSON output use the v1 format.
+  * Add another patch to use timezone in dates.
+
+ -- Vincent Bernat <bernat@debian.org>  Wed, 30 Sep 2015 14:30:51 +0200
+
 ulogd2 (2.0.5-1~precise0+exo1) precise; urgency=medium
 
   * Backport to Precise.
