@@ -1,3 +1,9 @@
+ulogd2 (2.0.5-1~precise0+exo1) precise; urgency=medium
+
+  * Backport to Precise. No changes.
+
+ -- Vincent Bernat <bernat@debian.org>  Wed, 30 Sep 2015 10:28:18 +0200
+
 ulogd2 (2.0.5-1) unstable; urgency=medium
 
   * New upstream release.
