@@ -1,0 +1,57 @@
+#!/usr/bin/make -f
+# -*- mode: makefile; coding: utf-8 -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+# Activate full hardening build flags
+export DEB_BUILD_MAINT_OPTIONS := hardening=+pie,+bindnow
+
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+PACKAGE	= $(firstword $(shell dh_listpackages))
+TMP	= $(CURDIR)/debian/$(PACKAGE)
+
+%:
+	dh $@ --with autoreconf,systemd --parallel
+
+override_dh_auto_configure:
+	dh_auto_configure -- --disable-silent-rules --with-pgsql --with-mysql \
+		--with-dbi --with-dbi-lib=/usr/lib/$(DEB_HOST_MULTIARCH) \
+		--with-jansson
+
+override_dh_auto_build:
+	dh_auto_build
+	( cd doc && sgml2txt ulogd.sgml && sgml2html -s 0 ulogd.sgml )
+
+override_dh_auto_clean:
+	dh_auto_clean
+	$(MAKE) -C doc clean
+	rm -f ulogd.conf
+
+override_dh_fixperms:
+	dh_fixperms
+	chmod 600 $(TMP)/etc/ulogd.conf
+
+override_dh_install:
+	dh_install -X.la --fail-missing
+
+override_dh_installdocs:
+	# The ulogd transitional packages need their /usr/share/doc directories
+	# handling specially in order to pick up the correct NEWS file.
+	dh_installdocs -pulogd
+	dh_installdocs -pulogd-mysql --link-doc=ulogd
+	dh_installdocs -pulogd-pgsql --link-doc=ulogd
+	dh_installdocs -pulogd-pcap --link-doc=ulogd
+	dh_installdocs -pulogd-sqlite3 --link-doc=ulogd
+	dh_installdocs --link-doc=$(PACKAGE)
+
+override_dh_strip:
+	dh_strip --dbg-package=$(PACKAGE)-dbg
+
+.PHONY: override_dh_auto_configure override_dh_auto_build \
+	override_dh_auto_clean override_dh_fixperms override_dh_install \
+	override_dh_installdocs override_dh_strip

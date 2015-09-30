@@ -1,0 +1,125 @@
+ulogd2 (2.0.5-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Corrects JSON output of integer types on big-endian systems.
+      (Closes: #784935)
+  * Update Standards-Version to 3.9.6 (no changes required).
+  * Add a README.source file.
+
+ -- Chris Boot <debian@bootc.net>  Mon, 11 May 2015 12:31:51 +0100
+
+ulogd2 (2.0.4-2) unstable; urgency=medium
+
+  [ Andreas Beckmann ]
+  * Fix removal of old ulogd initscript upon initial installation of ulogd2.
+  * Remove more obsolete conffiles.
+
+  [ Chris Boot ]
+  * Apply patches from Andreas Beckmann correct the transition from ulogd to
+    ulogd2. (Closes: #779865, LP: #1354720)
+
+ -- Chris Boot <debian@bootc.net>  Sun, 08 Mar 2015 15:22:44 +0000
+
+ulogd2 (2.0.4-1) unstable; urgency=medium
+
+  * New upstream release:
+    - Disables database buffering by default. This was enabled unintentionally
+      in 2.0.3.
+    - New JSON output plugin.
+  * Refresh patches to eliminate fuzz and incorporate upstream changes:
+    - debian/patches/enable-nflog-by-default.patch
+    - debian/patches/put-logfiles-in-var-log-ulog.patch
+  * Enable the JSON output plugin:
+    - d/control: Add libjansson-dev to Build-Depends, add ulogd2-json package,
+        add ulogd2-json to ulogd2's Suggests, update the ulogd2 long
+        description.
+    - d/rules: Add --with-jansson to configure arguments.
+    - d/ulogd2-json.install: new file.
+
+ -- Chris Boot <debian@bootc.net>  Sun, 13 Apr 2014 14:48:34 +0100
+
+ulogd2 (2.0.3-2) unstable; urgency=low
+
+  * Enable parallel build.
+  * Enable GPG signature checking for uscan:
+    - update debian/watch
+    - add debian/upstream/signing-key.asc
+  * Use dh-autoreconf instead of autotools-dev to fix FTBFS on newer
+    architectures (e.g. arm64 and Ubuntu's ppc64el). (Closes: #735961)
+  * Add --with-dbi-lib to configure options to work with newer libdbi which now
+    lives in the multiarch lib directory. Thanks to Hideki Yamane for the patch.
+    (Closes: #738407)
+
+ -- Chris Boot <debian@bootc.net>  Sat, 22 Mar 2014 17:30:52 +0000
+
+ulogd2 (2.0.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Refresh put-logfiles-in-var-log-ulog.patch.
+  * Remove patches applied upstream:
+    - nice-before-setuid.patch
+    - write-pidfile.patch
+    - improve-pid-file-handling.patch
+    - nflog-close-handle-after-unbind.patch
+  * Use ./configure --disable-silent-rules instead of make V=1.
+  * Correct Vcs-Browser entry to point at gitweb on Alioth.
+  * If the old ulogd init script exists during preinst, try to stop ulogd using
+    that script. (Closes: #731257)
+
+ -- Chris Boot <debian@bootc.net>  Tue, 03 Dec 2013 22:50:05 +0000
+
+ulogd2 (2.0.2-4) unstable; urgency=low
+
+  * Change priority of transitional packages to extra.
+  * Change Vcs-{Browser,Git} to Alioth.
+  * Update paths to docs in ulogd(8). (LP: #1232104)
+  * Disable and remove old ulogd init script. (Closes: #729657, LP: #1250520)
+    - Forcibly disable the init script in postinst.
+    - Remove the script safely using rm_conffile.
+    - Make the ulogd2 init script provide ulogd.
+  * Fix assertion failure in libnfnetlink caused by running multiple instances
+    of ulogd. (Closes: #729055)
+    - Add nflog-close-handle-after-unbind.patch.
+  * Add systemd unit and upstart job files.
+  * Update Standards-Version to 3.9.5 (no changes required).
+
+ -- Chris Boot <debian@bootc.net>  Fri, 15 Nov 2013 16:36:17 +0000
+
+ulogd2 (2.0.2-3) unstable; urgency=low
+
+  * Set up transition from ulogd to ulogd2. (Closes: #395302, #699767)
+  * Update debian/ulogd2.examples to use a wildcard for debian/examples/*
+  * Complete changing my email address in the package source.
+
+ -- Chris Boot <debian@bootc.net>  Fri, 21 Jun 2013 19:56:29 +0100
+
+ulogd2 (2.0.2-2) unstable; urgency=low
+
+  [ Chris Boot ]
+  * Add ulogd2-dbi to Suggests, improve package descriptions.
+  * Activate full hardening build flags (pie + bindnow).
+  * Create ulog user; drop root privileges when starting daemon.
+  * Add nice-before-setuid.patch (applied upstream):
+    - Fixes daemon failing to renice when run as non-root.
+  * Add write-pidfile.patch (applied upstream):
+    - Add PID file capability to daemon.
+  * Add improve-pid-file-handling.patch (from upstream):
+    - Improves PID file handling added in the earlier patch.
+  * Rewrite init script using current best practices:
+    - Uses PID files; based on /etc/init.d/skeleton; uses LSB exit codes.
+  * Remove libnetfilter_conntrack-1.0.1.patch and libnfnetlink-1.0.0.patch:
+    - The requisite versions are in unstable.
+    - Add versioned build-depends for those packages instead.
+  * Include /usr/share/doc/ulogd2/examples/pcap2ulog.gz from upstream git file
+    contrib/pcap2ulog (not included in upstream tarball).
+
+  [ Jonathan Wiltshire ]
+  * Update maintainer address
+
+ -- Chris Boot <debian@bootc.net>  Thu, 30 May 2013 20:09:51 +0100
+
+ulogd2 (2.0.2-1) unstable; urgency=low
+
+  * Initial release (Closes: #502305)
+
+ -- Chris Boot <bootc@bootc.net>  Mon, 29 Apr 2013 09:12:48 +0100

@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e
+
+# create ulog group if there isn't one already
+if ! getent group ulog >/dev/null; then
+	addgroup --system ulog >/dev/null
+fi
+
+# create ulog user if there isn't one already
+if ! getent passwd ulog >/dev/null; then
+	adduser --system --ingroup ulog --shell /bin/false \
+		--home /var/log/ulog ulog >/dev/null
+fi
+
+# ensure the ulogd 1.x init script doesn't run
+if [ -x "/etc/init.d/ulogd" ]; then
+	update-rc.d -f ulogd remove >/dev/null
+fi
+
+#DEBHELPER#
+
