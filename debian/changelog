@@ -1,3 +1,22 @@
+ulogd2 (2.0.5-3) unstable; urgency=medium
+
+  * Use my new debian.org email address.
+  * Add ulogd-restructures-signal-handling-by-self-pipe-tric.patch:
+    Import upstream patch to overhaul the signal handling mechanism. This
+    should prevent many seemingly random crashes during logrotate.
+  * Remove transitional packages. The transition was completed in jessie.
+  * Use https:// URLs for Vcs-Browser and Vcs-Git control fields.
+  * Replace the -dbg package with automatic -dbgsym packages.
+
+ -- Chris Boot <bootc@debian.org>  Thu, 25 Feb 2016 21:03:16 +0000
+
+ulogd2 (2.0.5-2) unstable; urgency=medium
+
+  * Add a NEWS file documenting that the ULOG iptables and ebtables targets
+    have been removed from the kernel as of version 3.17. (Closes: #785415)
+
+ -- Chris Boot <debian@bootc.net>  Thu, 05 Nov 2015 10:55:41 +0000
+
 ulogd2 (2.0.5-1~precise0+exo2) precise; urgency=medium
 
   * Add a patch to make JSON output use the v1 format.

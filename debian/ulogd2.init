@@ -9,7 +9,7 @@
 # Description:       Starts the netfilter userspace log daemon
 ### END INIT INFO
 
-# Author: Chris Boot <debian@bootc.net>
+# Author: Chris Boot <bootc@debian.org>
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="netfilter userspace log daemon"

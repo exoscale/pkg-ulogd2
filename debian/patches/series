@@ -2,5 +2,6 @@ configure-logging.patch
 enable-nflog-by-default.patch
 put-logfiles-in-var-log-ulog.patch
 ulogd8-ulogd2.patch
+ulogd-restructures-signal-handling-by-self-pipe-tric.patch
 0001-json-output-messages-in-JSONv1-format.patch
 0002-json-append-timezone-information-to-ISO-8601-date.patch

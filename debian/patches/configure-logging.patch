@@ -2,7 +2,7 @@ Description: Tweak log destination and loglevel in ulogd.conf.in
  Send logging for ulogd itself to syslog rather than to file (not for iptables
  logging), and explicitly set loglevel to info.
 Forwarded: not-needed
-Author: Chris Boot <debian@bootc.net>
+Author: Chris Boot <bootc@debian.org>
 Last-Update: 2013-04-27
 
 --- ulogd2-2.0.2.orig/ulogd.conf.in

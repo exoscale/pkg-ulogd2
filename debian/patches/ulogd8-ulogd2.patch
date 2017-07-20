@@ -3,7 +3,7 @@ Description: Correct ulogd(8) paths to /usr/share/doc/ulogd2
 The paths in the ulogd(8) man page assume the package is called 'ulogd' and not
 'ulogd2'. This patch updates the paths.
 
-Author: Chris Boot <debian@bootc.net>
+Author: Chris Boot <bootc@debian.org>
 Bug-Ubuntu: https://launchpad.net/bugs/1232104
 Forwarded: not-needed
 Last-Update: 2013-11-14
