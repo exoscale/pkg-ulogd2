@@ -2,6 +2,7 @@ ulogd2 (2.0.5-3~precise0+exo1) precise; urgency=medium
 
   * Backport to Precise.
      + JSON patches still present!
+     + Restore -dbg package.
      + Add another patch to put into a single namespace all
        netfilter-related keys.
 
