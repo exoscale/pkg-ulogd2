@@ -1,3 +1,10 @@
+ulogd2 (2.0.5-3~precise0+exo1) precise; urgency=medium
+
+  * Backport to Precise.
+     + JSON patches still present!
+
+ -- Vincent Bernat <bernat@debian.org>  Thu, 20 Jul 2017 11:49:34 +0200
+
 ulogd2 (2.0.5-3) unstable; urgency=medium
 
   * Use my new debian.org email address.
