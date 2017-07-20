@@ -5,5 +5,4 @@ ulogd8-ulogd2.patch
 ulogd-restructures-signal-handling-by-self-pipe-tric.patch
 0001-json-output-messages-in-JSONv1-format.patch
 0002-json-append-timezone-information-to-ISO-8601-date.patch
-0001-json-don-t-abbreviate-device.patch
 0002-json-with-eventv1-format-push-all-properties-under-n.patch
