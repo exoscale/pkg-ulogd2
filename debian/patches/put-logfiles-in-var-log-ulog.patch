@@ -3,7 +3,7 @@ Description: Update logfile paths to log to /var/log/ulog/*
  /var/log/. To keep things tidy, including the logrotate script, move all the
  logs into a common parent directory.
 Forwarded: not-needed
-Author: Chris Boot <debian@bootc.net>
+Author: Chris Boot <bootc@debian.org>
 Last-Update: 2013-04-27
 
 --- a/ulogd.conf.in

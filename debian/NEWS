@@ -1,0 +1,14 @@
+ulogd2 (2.0.5-2) unstable; urgency=medium
+
+  WARNING: You may need to update your iptables or ebtables configuration!
+
+  The ipt_ULOG and ebt_ulog modules, and thus the ULOG targets for iptables and
+  ebtables, were removed in the 3.17 kernel. NFLOG replaces ULOG and works for
+  iptables, ip6tables and ebtables. If you are using the ULOG target in your
+  configuration, you will need to replace it with NFLOG for your configuration
+  to apply correctly under current kernels.
+
+  You will also need to ensure NFLOG is enabled in the ulogd configuration.
+  This is enabled by default.
+
+ -- Chris Boot <debian@bootc.net>  Sun, 30 Aug 2015 12:06:31 +0100
