@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 9), dh-autoreconf, pkg-config,
  libnfnetlink-dev (>= 1.0.1), libmnl-dev, libnetfilter-acct-dev,
  libnetfilter-conntrack-dev (>= 1.0.2), libnetfilter-log-dev,
  libmysqlclient-dev, libpq-dev, libsqlite3-dev, libdbi-dev, libpcap-dev,
- linuxdoc-tools, groff, libjansson-dev
+ linuxdoc-tools, groff, dh-systemd (>= 1.5), libjansson-dev
 Standards-Version: 3.9.6
 Homepage: http://www.netfilter.org/projects/ulogd/
 Vcs-Browser: https://anonscm.debian.org/git/collab-maint/ulogd2.git

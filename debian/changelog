@@ -1,6 +1,7 @@
 ulogd2 (2.0.5-3~xenial0+exo2) xenial; urgency=medium
 
   * Forward-port to Xenial.
+     + Add back systemd support.
 
  -- Vincent Bernat <bernat@debian.org>  Thu, 20 Jul 2017 13:26:05 +0200
 
