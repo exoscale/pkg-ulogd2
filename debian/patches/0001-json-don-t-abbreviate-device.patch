@@ -1,0 +1,25 @@
+From 81dbb9734131d9d8e5420f2f4c9134446f3611ca Mon Sep 17 00:00:00 2001
+From: Vincent Bernat <Vincent.Bernat@exoscale.ch>
+Date: Thu, 20 Jul 2017 12:59:35 +0200
+Subject: [PATCH 1/2] json: don't abbreviate device
+
+---
+ output/ulogd_output_JSON.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/output/ulogd_output_JSON.c b/output/ulogd_output_JSON.c
+index 4d8e3e940a7d..b8598b29f4d8 100644
+--- a/output/ulogd_output_JSON.c
++++ b/output/ulogd_output_JSON.c
+@@ -161,7 +161,7 @@ static int json_interp(struct ulogd_pluginstance *upi)
+ 
+ 	if (upi->config_kset->ces[JSON_CONF_DEVICE].u.string) {
+ 		char *dvc = upi->config_kset->ces[JSON_CONF_DEVICE].u.string;
+-		json_object_set_new(msg, "dvc", json_string(dvc));
++		json_object_set_new(msg, "device", json_string(dvc));
+ 	}
+ 
+ 
+-- 
+2.13.3
+

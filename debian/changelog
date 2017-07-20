@@ -2,6 +2,8 @@ ulogd2 (2.0.5-3~precise0+exo1) precise; urgency=medium
 
   * Backport to Precise.
      + JSON patches still present!
+     + Add another patch to put into a single namespace all
+       netfilter-related keys.
 
  -- Vincent Bernat <bernat@debian.org>  Thu, 20 Jul 2017 11:49:34 +0200
 

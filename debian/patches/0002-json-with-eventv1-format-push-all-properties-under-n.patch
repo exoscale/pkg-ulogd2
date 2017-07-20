@@ -1,0 +1,102 @@
+From bedbed552fe19d2656366e5747421ee88e03b650 Mon Sep 17 00:00:00 2001
+From: Vincent Bernat <Vincent.Bernat@exoscale.ch>
+Date: Thu, 20 Jul 2017 13:04:47 +0200
+Subject: [PATCH 2/2] json: with "eventv1" format, push all properties under
+ "netfilter" key
+
+Otherwise, it's easy to have a "mac" property which is an object and
+this makes it difficult to store the result in ES as it conflicts with
+an existant mapping where MAC is just a string.
+---
+ output/ulogd_output_JSON.c | 33 ++++++++++++++++++++++-----------
+ 1 file changed, 22 insertions(+), 11 deletions(-)
+
+diff --git a/output/ulogd_output_JSON.c b/output/ulogd_output_JSON.c
+index b8598b29f4d8..748850d93dff 100644
+--- a/output/ulogd_output_JSON.c
++++ b/output/ulogd_output_JSON.c
+@@ -104,7 +104,7 @@ static int json_interp(struct ulogd_pluginstance *upi)
+ {
+ 	struct json_priv *opi = (struct json_priv *) &upi->private;
+ 	unsigned int i;
+-	json_t *msg;
++	json_t *msg, *props;
+ 
+ 	msg = json_object();
+ 	if (!msg) {
+@@ -164,6 +164,16 @@ static int json_interp(struct ulogd_pluginstance *upi)
+ 		json_object_set_new(msg, "device", json_string(dvc));
+ 	}
+ 
++	if (upi->config_kset->ces[JSON_CONF_EVENTV1].u.value != 0) {
++		if ((props = json_object()) == NULL) {
++			ulogd_log(ULOGD_ERROR, "Unable to create JSON object\n");
++			json_decref(msg);
++			return ULOGD_IRET_ERR;
++		}
++		json_object_set(msg, "netfilter", props);
++	} else {
++		props = json_incref(msg);
++	}
+ 
+ 
+ 	for (i = 0; i < upi->input.num_keys; i++) {
+@@ -180,37 +190,37 @@ static int json_interp(struct ulogd_pluginstance *upi)
+ 
+ 		switch (key->type) {
+ 		case ULOGD_RET_STRING:
+-			json_object_set_new(msg, field_name, json_string(key->u.value.ptr));
++			json_object_set_new(props, field_name, json_string(key->u.value.ptr));
+ 			break;
+ 		case ULOGD_RET_BOOL:
+ 		case ULOGD_RET_INT8:
+-			json_object_set_new(msg, field_name, json_integer(key->u.value.i8));
++			json_object_set_new(props, field_name, json_integer(key->u.value.i8));
+ 			break;
+ 		case ULOGD_RET_INT16:
+-			json_object_set_new(msg, field_name, json_integer(key->u.value.i16));
++			json_object_set_new(props, field_name, json_integer(key->u.value.i16));
+ 			break;
+ 		case ULOGD_RET_INT32:
+-			json_object_set_new(msg, field_name, json_integer(key->u.value.i32));
++			json_object_set_new(props, field_name, json_integer(key->u.value.i32));
+ 			break;
+ 		case ULOGD_RET_UINT8:
+ 			if ((upi->config_kset->ces[JSON_CONF_BOOLEAN_LABEL].u.value != 0)
+ 					&& (!strcmp(key->name, "raw.label"))) {
+ 				if (key->u.value.ui8)
+-					json_object_set_new(msg, "action", json_string("allowed"));
++					json_object_set_new(props, "action", json_string("allowed"));
+ 				else
+-					json_object_set_new(msg, "action", json_string("blocked"));
++					json_object_set_new(props, "action", json_string("blocked"));
+ 				break;
+ 			}
+-			json_object_set_new(msg, field_name, json_integer(key->u.value.ui8));
++			json_object_set_new(props, field_name, json_integer(key->u.value.ui8));
+ 			break;
+ 		case ULOGD_RET_UINT16:
+-			json_object_set_new(msg, field_name, json_integer(key->u.value.ui16));
++			json_object_set_new(props, field_name, json_integer(key->u.value.ui16));
+ 			break;
+ 		case ULOGD_RET_UINT32:
+-			json_object_set_new(msg, field_name, json_integer(key->u.value.ui32));
++			json_object_set_new(props, field_name, json_integer(key->u.value.ui32));
+ 			break;
+ 		case ULOGD_RET_UINT64:
+-			json_object_set_new(msg, field_name, json_integer(key->u.value.ui64));
++			json_object_set_new(props, field_name, json_integer(key->u.value.ui64));
+ 			break;
+ 		default:
+ 			/* don't know how to interpret this key. */
+@@ -221,6 +231,7 @@ static int json_interp(struct ulogd_pluginstance *upi)
+ 	json_dumpf(msg, opi->of, 0);
+ 	fprintf(opi->of, "\n");
+ 
++	json_decref(props);
+ 	json_decref(msg);
+ 
+ 	if (upi->config_kset->ces[JSON_CONF_SYNC].u.value != 0)
+-- 
+2.13.3
+
