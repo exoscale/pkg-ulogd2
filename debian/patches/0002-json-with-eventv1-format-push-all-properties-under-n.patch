@@ -25,7 +25,7 @@ index b8598b29f4d8..748850d93dff 100644
  	msg = json_object();
  	if (!msg) {
 @@ -164,6 +164,16 @@ static int json_interp(struct ulogd_pluginstance *upi)
- 		json_object_set_new(msg, "device", json_string(dvc));
+ 		json_object_set_new(msg, "dvc", json_string(dvc));
  	}
  
 +	if (upi->config_kset->ces[JSON_CONF_EVENTV1].u.value != 0) {
