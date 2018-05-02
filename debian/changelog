@@ -1,3 +1,10 @@
+ulogd2 (2.0.5-5+bionic0+exo1) bionic; urgency=medium
+
+  * Hybrid crossport for Bionic.
+     + Revert Xenial-specific changes.
+
+ -- Vincent Bernat <bernat@debian.org>  Wed, 02 May 2018 10:13:36 +0200
+
 ulogd2 (2.0.5-5~xenial0+exo1) xenial; urgency=medium
 
   * Backport to Xenial.
