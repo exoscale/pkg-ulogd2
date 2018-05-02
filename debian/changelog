@@ -1,3 +1,23 @@
+ulogd2 (2.0.5-5) unstable; urgency=medium
+
+  * Switch to debhelper compat 10.
+    - debian/control: update and tidy up Build-Depends.
+    - debian/rules: tidy and remove implied autoreconf, systemd and parallel
+      options
+  * ulogd2.service: Add Documentation key
+  * Tighten ownership and permissions on /var/log/ulog. (Closes: #846843)
+
+ -- Chris Boot <bootc@debian.org>  Sat, 17 Dec 2016 10:28:55 +0000
+
+ulogd2 (2.0.5-4) unstable; urgency=medium
+
+  * Run wrap-and-sort.
+  * Update Standards-Version to 3.9.8 (no changes required).
+  * Replace Build-Depends on libmysqlclient-dev with
+    default-libmysqlclient-dev.
+
+ -- Chris Boot <bootc@debian.org>  Fri, 11 Nov 2016 16:39:34 +0000
+
 ulogd2 (2.0.5-3) unstable; urgency=medium
 
   * Use my new debian.org email address.

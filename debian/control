@@ -2,12 +2,23 @@ Source: ulogd2
 Section: net
 Priority: optional
 Maintainer: Chris Boot <bootc@debian.org>
-Build-Depends: debhelper (>= 9), dh-autoreconf, pkg-config,
- libnfnetlink-dev (>= 1.0.1), libmnl-dev, libnetfilter-acct-dev,
- libnetfilter-conntrack-dev (>= 1.0.2), libnetfilter-log-dev,
- libmysqlclient-dev, libpq-dev, libsqlite3-dev, libdbi-dev, libpcap-dev,
- linuxdoc-tools, groff, dh-systemd (>= 1.5), libjansson-dev
-Standards-Version: 3.9.6
+Build-Depends:
+ debhelper (>= 10),
+ default-libmysqlclient-dev,
+ groff,
+ libdbi-dev,
+ libjansson-dev,
+ libmnl-dev,
+ libnetfilter-acct-dev,
+ libnetfilter-conntrack-dev (>= 1.0.2),
+ libnetfilter-log-dev,
+ libnfnetlink-dev (>= 1.0.1),
+ libpcap-dev,
+ libpq-dev,
+ libsqlite3-dev,
+ linuxdoc-tools,
+ pkg-config,
+Standards-Version: 3.9.8
 Homepage: http://www.netfilter.org/projects/ulogd/
 Vcs-Browser: https://anonscm.debian.org/git/collab-maint/ulogd2.git
 Vcs-Git: https://anonscm.debian.org/git/collab-maint/ulogd2.git
@@ -15,9 +26,14 @@ Vcs-Git: https://anonscm.debian.org/git/collab-maint/ulogd2.git
 Package: ulogd2
 Architecture: linux-any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ${shlibs:Depends}, lsb-base, ${misc:Depends}, adduser
-Suggests: ulogd2-dbi, ulogd2-json, ulogd2-mysql, ulogd2-pcap, ulogd2-pgsql,
- ulogd2-sqlite3
+Depends: adduser, lsb-base, ${misc:Depends}, ${shlibs:Depends}
+Suggests:
+ ulogd2-dbi,
+ ulogd2-json,
+ ulogd2-mysql,
+ ulogd2-pcap,
+ ulogd2-pgsql,
+ ulogd2-sqlite3,
 Breaks: ulogd (<< 2.0.2-3~)
 Replaces: ulogd (<< 2.0.2-3~)
 Description: Netfilter Userspace Logging Daemon
@@ -36,7 +52,7 @@ Description: Netfilter Userspace Logging Daemon
 Package: ulogd2-dbi
 Architecture: linux-any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ulogd2 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: ulogd2 (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
 Description: DBI extension to ulogd
  ulogd is an advanced netfilter logging daemon. It can act as a replacement for
  syslog for logging netfilter ruleset violations (via the NFLOG or ULOG iptables
@@ -51,7 +67,7 @@ Description: DBI extension to ulogd
 Package: ulogd2-json
 Architecture: linux-any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ulogd2 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: ulogd2 (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
 Description: JSON extension to ulogd
  ulogd is an advanced netfilter logging daemon. It can act as a replacement for
  syslog for logging netfilter ruleset violations (via the NFLOG or ULOG iptables
@@ -66,7 +82,7 @@ Description: JSON extension to ulogd
 Package: ulogd2-mysql
 Architecture: linux-any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ulogd2 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: ulogd2 (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
 Breaks: ulogd-mysql (<< 2.0.2-3~)
 Replaces: ulogd-mysql (<< 2.0.2-3~)
 Description: MySQL extension to ulogd
@@ -82,8 +98,8 @@ Description: MySQL extension to ulogd
 Package: ulogd2-pcap
 Architecture: linux-any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ulogd2 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
-Suggests: tcpdump, wireshark, tshark
+Depends: ulogd2 (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
+Suggests: tcpdump, tshark, wireshark
 Breaks: ulogd-pcap (<< 2.0.2-3~)
 Replaces: ulogd-pcap (<< 2.0.2-3~)
 Description: pcap extension to ulogd
@@ -100,7 +116,7 @@ Description: pcap extension to ulogd
 Package: ulogd2-pgsql
 Architecture: linux-any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ulogd2 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: ulogd2 (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
 Breaks: ulogd-pgsql (<< 2.0.2-3~)
 Replaces: ulogd-pgsql (<< 2.0.2-3~)
 Description: PostgreSQL extension to ulogd
@@ -116,7 +132,7 @@ Description: PostgreSQL extension to ulogd
 Package: ulogd2-sqlite3
 Architecture: linux-any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ulogd2 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: ulogd2 (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
 Breaks: ulogd-sqlite3 (<< 2.0.2-3~)
 Replaces: ulogd-sqlite3 (<< 2.0.2-3~)
 Description: SQLite 3 extension to ulogd

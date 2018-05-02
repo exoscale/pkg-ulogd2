@@ -1,4 +1,6 @@
 AUTHORS
+README
+TODO
 doc/mysql-ulogd2-flat.sql
 doc/mysql-ulogd2.sql
 doc/pgsql-ulogd2-flat.sql
@@ -6,5 +8,3 @@ doc/pgsql-ulogd2.sql
 doc/sqlite3.table
 doc/ulogd.html
 doc/ulogd.txt
-README
-TODO

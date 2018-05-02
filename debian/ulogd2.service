@@ -1,5 +1,6 @@
 [Unit]
 Description=Netfilter Userspace Logging Daemon
+Documentation=man:ulogd(8)
 
 [Service]
 Type=forking
