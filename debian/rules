@@ -40,4 +40,4 @@ override_dh_installdocs:
 	dh_installdocs --link-doc=$(PACKAGE)
 
 override_dh_strip:
-	dh_strip --dbg-package=$(PACKAGE)-dbg
+	dh_strip --dbgsym-migration=$(PACKAGE)-dbg
