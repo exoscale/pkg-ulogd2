@@ -5,13 +5,6 @@ ulogd2 (2.0.5-5+bionic0+exo1) bionic; urgency=medium
 
  -- Vincent Bernat <bernat@debian.org>  Wed, 02 May 2018 10:13:36 +0200
 
-ulogd2 (2.0.5-5~xenial0+exo1) xenial; urgency=medium
-
-  * Backport to Xenial.
-     + Use debhelper 9.
-
- -- Vincent Bernat <bernat@debian.org>  Wed, 02 May 2018 10:08:21 +0200
-
 ulogd2 (2.0.5-5) unstable; urgency=medium
 
   * Switch to debhelper compat 10.
