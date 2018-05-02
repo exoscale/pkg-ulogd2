@@ -3,8 +3,10 @@ Section: net
 Priority: optional
 Maintainer: Chris Boot <bootc@debian.org>
 Build-Depends:
- debhelper (>= 10),
+ debhelper (>= 9),
  default-libmysqlclient-dev,
+ dh-autoreconf,
+ dh-systemd (>= 1.5),
  groff,
  libdbi-dev,
  libjansson-dev,
