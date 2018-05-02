@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Chris Boot <bootc@debian.org>
 Build-Depends:
  debhelper (>= 9),
- libmysqlclient-dev,
+ default-libmysqlclient-dev,
  dh-autoreconf,
  dh-systemd (>= 1.5),
  groff,

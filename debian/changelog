@@ -9,7 +9,6 @@ ulogd2 (2.0.5-5~xenial0+exo1) xenial; urgency=medium
 
   * Backport to Xenial.
      + Use debhelper 9.
-     + Fix BD on libmysqlclient-dev.
 
  -- Vincent Bernat <bernat@debian.org>  Wed, 02 May 2018 10:08:21 +0200
 
