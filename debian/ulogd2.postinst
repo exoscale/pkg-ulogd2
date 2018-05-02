@@ -17,5 +17,17 @@ if [ -x "/etc/init.d/ulogd" ]; then
 	update-rc.d -f ulogd remove >/dev/null
 fi
 
+case "$1" in
+configure)
+	# Set ownership and permissions on /var/log/ulog for new installs or
+	# upgrades from << 2.0.5-5
+	if dpkg --compare-versions "$2" lt '2.0.5-5~'; then
+		mkdir -p /var/log/ulog
+		chown ulog:adm /var/log/ulog
+		chmod u=rwx,g=rx,o= /var/log/ulog
+	fi
+	;;
+esac
+
 #DEBHELPER#
 
